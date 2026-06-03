@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>墨水屏图片模板</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <button class="icon-button hidden" id="backButton" aria-label="返回">‹</button>
+        <div class="title-stack">
+          <h1 id="pageTitle">图片模板</h1>
+        </div>
+        <button class="reset-top hidden" id="resetButton">重置</button>
+      </header>
+
+      <section class="template-view" id="templateView" aria-label="图片处理模板">
+        <div class="template-grid" id="templateGrid"></div>
+      </section>
+
+      <section class="editor-view hidden" id="editorView" aria-label="模板编辑">
+        <section class="preview-card" aria-label="墨水屏预览">
+          <div class="device-shell">
+            <canvas id="previewCanvas" width="480" height="800"></canvas>
+          </div>
+        </section>
+
+        <section class="upload-row">
+          <input id="imageInput" type="file" accept="image/*" hidden />
+          <button id="pickImageButton">导入图片</button>
+        </section>
+
+        <div class="tools-row">
+          <nav class="tool-tabs" id="toolTabs" aria-label="编辑工具"></nav>
+        </div>
+
+        <section class="panel" id="panel"></section>
+
+        <footer class="action-bar">
+          <button class="secondary" id="exportButton">导出 PNG</button>
+          <button class="primary" id="pushButton">推送到设备</button>
+        </footer>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
