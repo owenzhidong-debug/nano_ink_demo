@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="deploy-version" content="2026-06-03-1" />
     <title>墨水屏图片模板</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -22,6 +21,8 @@
       </section>
 
       <section class="editor-view hidden" id="editorView" aria-label="模板编辑">
+        <nav class="badge-type-tabs hidden" id="badgeTypeTabs" aria-label="工卡类型"></nav>
+
         <section class="preview-card" aria-label="墨水屏预览">
           <div class="device-shell">
             <canvas id="previewCanvas" width="480" height="800"></canvas>
