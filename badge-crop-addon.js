@@ -42,6 +42,17 @@
       border-top: 1px solid #2a2a2a;
       background: #fff;
     }
+    .badge-crop-rotate {
+      width: 100%;
+      height: 40px;
+      margin: -2px 0 12px;
+      border: 1px solid #dfe4e8;
+      border-radius: 20px;
+      background: #fff;
+      color: #111;
+      font-size: 13px;
+      font-weight: 800;
+    }
     .badge-crop-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -70,6 +81,7 @@
         </div>
         <input id="badgeCropZoom" type="range" min="100" max="400" step="1" value="100" />
       </div>
+      <button class="badge-crop-rotate" id="badgeCropRotateButton">逆时针旋转 90°</button>
       <div class="badge-crop-actions">
         <button class="secondary" id="badgeCropCancelButton">取消</button>
         <button class="primary" id="badgeCropNextButton">下一步</button>
@@ -82,6 +94,7 @@
   const cropCtx = cropCanvas.getContext("2d");
   const zoom = document.getElementById("badgeCropZoom");
   const zoomOutput = document.getElementById("badgeCropZoomOutput");
+  const rotateButton = document.getElementById("badgeCropRotateButton");
   const cancelButton = document.getElementById("badgeCropCancelButton");
   const nextButton = document.getElementById("badgeCropNextButton");
   let crop = null;
@@ -177,6 +190,24 @@
     render();
   }
 
+  function rotateCounterclockwise() {
+    if (!crop) return;
+    const activeCrop = crop;
+    const rotatedCanvas = document.createElement("canvas");
+    rotatedCanvas.width = activeCrop.imageHeight;
+    rotatedCanvas.height = activeCrop.imageWidth;
+    const rotatedCtx = rotatedCanvas.getContext("2d");
+    rotatedCtx.translate(0, rotatedCanvas.height);
+    rotatedCtx.rotate(-Math.PI / 2);
+    rotatedCtx.drawImage(activeCrop.image, 0, 0, activeCrop.imageWidth, activeCrop.imageHeight);
+    const rotated = new Image();
+    rotated.onload = () => {
+      startCrop(rotated, activeCrop.target);
+      if (typeof showToast === "function") showToast("已逆时针旋转 90°");
+    };
+    rotated.src = rotatedCanvas.toDataURL("image/png");
+  }
+
   function render() {
     if (!crop) return;
     cropCtx.clearRect(0, 0, cropCanvas.width, cropCanvas.height);
@@ -261,6 +292,7 @@
     zoomOutput.textContent = `${percent}%`;
     if (crop) setScale(crop.minScale * (percent / 100));
   });
+  rotateButton.addEventListener("click", rotateCounterclockwise);
   cancelButton.addEventListener("click", closeCrop);
   nextButton.addEventListener("click", finishCrop);
   backButton?.addEventListener("click", (event) => {
